@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body class="hold-transition skin-blue sidebar-mini">
+<!--Head-->
+<div th:replace="admin/layout/head::head"></div>
+
+<div class="wrapper">
+    <!--header-->
+    <div th:replace="admin/layout/header::header"></div>
+
+    <!--Slidebar-->
+    <div th:replace="admin/layout/sidebar::sidebar"></div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 class="fa fa-pencil font-light fa-bold text-success">
+                THÊM MỚI KHUYẾN MẠI
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- Default box -->
+            <div class="box">
+                <div class="box-body">
+                    <form role="form" method="post" th:action="@{/admin/khuyen-mai/create}" th:object="${khuyenMai}">
+                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" id="createdAt" th:field="*{ngayTao}">
+                        <input type="hidden" id="updatedAt" th:field="*{ngaySua}">
+                        <div class="form-group">
+                            <label for="maKhuyenMai">Mã khuyến mại</label>
+                            <input type="text" class="form-control" id="maKhuyenMai" placeholder="Nhập mã khuyến mại!" th:field="*{maKhuyenMai}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tenKhuyenMai">Tên khuyến mại</label>
+                            <input type="text" class="form-control" id="tenKhuyenMai" placeholder="Nhập tên khuyến mại!" th:field="*{tenKhuyenMai}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hinhThuc">Hình thức</label>
+                            <input type="text" class="form-control" id="hinhThuc" placeholder="Hình thức giảm giá!" th:field="*{hinhThuc}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mucGiamGia">Mức giảm giá</label>
+                            <input type="text" class="form-control" id="mucGiamGia" placeholder="Nhập mức giảm giá!" th:field="*{mucGiamGia}" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="soLuong">Số lượng</label>
+                                    <input type="number" class="form-control" id="soLuong" placeholder="Nhập số lượng!" th:field="*{soLuong}" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="soTienMin">Số tiền min</label>
+                                    <input type="text" class="form-control" id="soTienMin" placeholder="vnđ!" th:field="*{soTienMin}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="moTa">Mô tả</label>
+                            <input type="text" class="form-control" id="moTa" placeholder=".....!" th:field="*{moTa}">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Ngày bắt đầu</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="date" class="form-control pull-right" id="ngayBatDau" th:field="*{ngayBatDau}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Ngày kết thúc</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="date" class="form-control pull-right" id="ngayKetThuc" th:field="*{ngayKetThuc}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Loại khuyến mại</label>
+                            <select class="form-control" th:field="*{loaiKhuyenMai}">
+                                <option th:each="loaiKhuyenMai : ${loaiKhuyenMais}"
+                                        th:value="${loaiKhuyenMai.id}"
+                                        th:text="${loaiKhuyenMai.ten}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <!--Footer-->
+    <div th:replace="admin/layout/footer::footer"></div>
+</div>
+
+<script th:src="@{/assets/js/angular.min.js}"></script>
+<script th:src="@{/assets/js/app.js}"></script>
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/jquery-ui.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/adminlte.min.js}"></script>
+<script th:src="@{/assets/js/dashboard.js}"></script>
+<script th:src="@{/assets/js/function.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    if (window.location.href.includes('success=true')) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Thêm thành công',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+    if (window.location.href.includes('deleteSuccess=true')) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Xóa thành công',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+    if (window.location.href.includes('updateSuccess=true')) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Cập nhật thành công',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+</script>
+
+</body>
+</html>
